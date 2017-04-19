@@ -2,4 +2,5 @@
     <string name="app_name">IndoorPositioning</string>
     <string name="collect_rss">COLLECT RSS VALUES</string>
     <string name="title_activity_select_location">selectLocation</string>
+    <string name="title_activity_training_set">TrainingSet</string>
 </resources>

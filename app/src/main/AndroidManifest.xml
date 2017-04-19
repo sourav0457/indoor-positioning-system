@@ -19,6 +19,10 @@
         <activity
             android:name=".selectLocation"
             android:label="@string/title_activity_select_location"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".TrainingSet"
+            android:label="@string/title_activity_training_set"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

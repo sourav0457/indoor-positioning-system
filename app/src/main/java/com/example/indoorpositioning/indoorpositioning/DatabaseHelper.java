@@ -68,10 +68,23 @@ public class DatabaseHelper extends SQLiteOpenHelper{
             return true;
     }
 
-    public Cursor getAllDataTraining(int i){
+    public Cursor getXYDataTraining(int i){
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor res = db.rawQuery("SELECT " + X_VALUE + " , " + Y_VALUE + " FROM " + TABLE_NAME_TRAINING + " WHERE " + ID + " = " + i , null);
         //Cursor res = db.rawQuery("SELECT " + X_VALUE + " , " + Y_VALUE + " FROM " + TABLE_NAME_TRAINING + " WHERE " + ID + " = " + i , null);
+        return res;
+    }
+
+    public Cursor getAllDataTraining(int i){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME_TRAINING + " WHERE " + ID + " = " + i , null);
+        return res;
+    }
+
+    public int deleteTrainingData(int id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        //delete returns the number of rows affected
+        int res = db.delete(TABLE_NAME_TRAINING, "TRAINING_ID=?", new String[]{String.valueOf(id)});
         return res;
     }
 

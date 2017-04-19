@@ -34,7 +34,7 @@ public class TrainingSet extends AppCompatActivity {
     int intentId;
 
     public void displaydata(){
-        Cursor res = myDb.getAllDataTraining(intentId);
+        Cursor res = myDb.getXYDataTraining(intentId);
         gv = (GridView)findViewById(R.id.idGridView);
         if(res.getCount() == 0){
             Snackbar snackbar = Snackbar.make(mcoordinatorLayout,"Add Training Data To Get Started", Snackbar.LENGTH_LONG);
@@ -54,20 +54,20 @@ public class TrainingSet extends AppCompatActivity {
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,buffer);
         gv.setAdapter(adapter);
-        /*gv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener(){
+        gv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener(){
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
-                AlertDialog deletealert = new AlertDialog.Builder(TrainingSet.this).create();
-                deletealert.setTitle("Delete");
-                deletealert.setMessage("\nConfirm Delete?");
-                deletealert.setButton(Dialog.BUTTON_POSITIVE,"YES",new DialogInterface.OnClickListener(){
+                AlertDialog deleteAlert = new AlertDialog.Builder(TrainingSet.this).create();
+                deleteAlert.setTitle("Delete");
+                deleteAlert.setMessage("\nConfirm Delete?");
+                deleteAlert.setButton(Dialog.BUTTON_POSITIVE,"YES",new DialogInterface.OnClickListener(){
                     @Override
                     public void onClick(DialogInterface dialog, int which){
                         int id, rowsAffected;
-                        Cursor res = myDb.getAllDataPrimary();
+                        Cursor res = myDb.getAllDataTraining(intentId);
                         res.moveToPosition(position);
                         id = res.getInt(0);
-                        rowsAffected = myDb.deleteData(id);
+                        rowsAffected = myDb.deleteTrainingData(id);
                         if(rowsAffected == 0){
                             Toast.makeText(getApplicationContext(),"Error: Could Not Delete Selected Item", Toast.LENGTH_SHORT).show();
                         }
@@ -84,16 +84,16 @@ public class TrainingSet extends AppCompatActivity {
                     }
 
                 });
-                deletealert.setButton(Dialog.BUTTON_NEGATIVE,"NO",new DialogInterface.OnClickListener(){
+                deleteAlert.setButton(Dialog.BUTTON_NEGATIVE,"NO",new DialogInterface.OnClickListener(){
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
                     }
                 });
-                deletealert.show();
+                deleteAlert.show();
                 return false;
             }
-        });*/
+        });
 
         gv.setOnItemClickListener(new AdapterView.OnItemClickListener(){
 

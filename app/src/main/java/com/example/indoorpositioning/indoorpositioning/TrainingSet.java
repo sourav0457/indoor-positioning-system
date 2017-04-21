@@ -1,14 +1,23 @@
 package com.example.indoorpositioning.indoorpositioning;
 
 import android.app.Dialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.SQLException;
+import android.net.wifi.ScanResult;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -22,9 +31,15 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+import java.util.jar.Manifest;
+import static android.content.Context.WIFI_SERVICE;
 
-public class TrainingSet extends AppCompatActivity {
 
+public class TrainingSet extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback{
+
+    private static final int MY_PERMISSIONS_REQUEST_CHANGE_WIFI_STATE = 123;
     CoordinatorLayout mcoordinatorLayout;
     DatabaseHelper myDb;
     GridView gv;
@@ -32,9 +47,93 @@ public class TrainingSet extends AppCompatActivity {
     EditText xparam;
     EditText yparam;
     int intentId;
+    int rss1,rss2,rss3;
+    String mac1, mac2, mac3;
+    List<ScanResult> wifiList;
+    StringBuilder sb = new StringBuilder();
+    WifiManager wifi;
+    IntentFilter filter = new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION);
+
+    protected void onResume(){
+        this.registerReceiver(mWifiScanReceiver,filter);
+        super.onResume();
+    }
+
+    protected void onPause(){
+        this.unregisterReceiver(mWifiScanReceiver);
+        super.onPause();
+    }
+
+    private void myWifiMethod() {
+        registerReceiver(mWifiScanReceiver, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
+        wifi.startScan();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions,int[] grantResults){
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_CHANGE_WIFI_STATE: {
+                if (grantResults.length >= 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    myWifiMethod();
+                }
+                else {
+                    Toast.makeText(getApplicationContext(),"Permission Denied!",Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+    }
+
+    public void getMACAddresses()
+    {
+        Cursor res = myDb.getDataById(intentId);
+        //SHOULD RETURN ONLY 1 ROW
+        if(res.getCount() == 0){
+            Snackbar snackbar = Snackbar.make(mcoordinatorLayout,"Some Error Occurred!", Snackbar.LENGTH_LONG);
+            snackbar.show();
+            return;
+        }
+        else
+        {
+            res.moveToFirst();
+            mac1 = res.getString(2);
+            mac2 = res.getString(3);
+            mac3 = res.getString(4);
+            Toast.makeText(getApplicationContext(),"Successfully obtained mac addresses from table",Toast.LENGTH_SHORT).show();
+
+        }
+    }
+
+    public void turnWifiOn()
+    {
+
+        if(wifi.isWifiEnabled()==false){
+            wifi.setWifiEnabled(true);
+            Toast.makeText(getApplicationContext(),"Wifi is now Enabled",Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private final BroadcastReceiver mWifiScanReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if(intent.getAction().equals(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION)){
+                wifiList = wifi.getScanResults();
+                for(int i=0; i < wifiList.size(); i++){
+                    if(((wifiList.get(i).BSSID).toString()).equals(mac1))
+                        rss1 = wifiList.get(i).level;
+                    if(((wifiList.get(i).BSSID).toString()).equals(mac2))
+                        rss2 = wifiList.get(i).level;
+                    if(((wifiList.get(i).BSSID).toString()).equals(mac3))
+                        rss3 = wifiList.get(i).level;
+                }
+
+            }
+        }
+    };
 
     public void displaydata(){
-        Cursor res = myDb.getXYDataTraining(intentId);
+        //Cursor res = myDb.getXYDataTraining(intentId);
+        Cursor res = myDb.getAllDataTraining(intentId);
         gv = (GridView)findViewById(R.id.idGridView);
         if(res.getCount() == 0){
             Snackbar snackbar = Snackbar.make(mcoordinatorLayout,"Add Training Data To Get Started", Snackbar.LENGTH_LONG);
@@ -46,7 +145,7 @@ public class TrainingSet extends AppCompatActivity {
         res.moveToFirst();
         try {
             do {
-                buffer.add("( X : " + res.getInt(0) + ", Y : " + res.getInt(1) + " )");
+                buffer.add("( X : " + res.getInt(1) + ", Y : " + res.getInt(2) + " ) (" + res.getInt(3) + "," + res.getInt(4) + "," + res.getInt(5) + ")");
             }while(res.moveToNext());
         }
         finally {
@@ -139,6 +238,19 @@ public class TrainingSet extends AppCompatActivity {
         Intent intent = getIntent();
         intentId = intent.getIntExtra("id", 0);
 
+        getMACAddresses();
+        wifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        turnWifiOn();
+
+        if(ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION)!= PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(TrainingSet.this ,new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                    MY_PERMISSIONS_REQUEST_CHANGE_WIFI_STATE);
+        }
+        else{
+            Toast.makeText(getApplicationContext(),"Method Called",Toast.LENGTH_SHORT).show();
+            myWifiMethod();
+        }
+
         displaydata();
 
         Toast.makeText(getApplicationContext(),"Training Set! ",Toast.LENGTH_SHORT).show();
@@ -166,7 +278,7 @@ public class TrainingSet extends AppCompatActivity {
                             int ycoordinate = Integer.parseInt(yvalue);
 
                             try {
-                                boolean isInserted = myDb.insertDataTraining(xcoordinate, ycoordinate, -9, -8, -7, intentId);
+                                boolean isInserted = myDb.insertDataTraining(xcoordinate, ycoordinate, rss1, rss2, rss3, intentId);
                                 if (isInserted == true) {
                                     Intent intentrefresh = getIntent();
                                     intentrefresh.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);

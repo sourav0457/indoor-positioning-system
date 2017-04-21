@@ -33,7 +33,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
 
     public DatabaseHelper(Context context) {
-        super(context, DATABASE_NAME, null, 5);
+        super(context, DATABASE_NAME, null, 6);
 
     }
 
@@ -89,6 +89,12 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     }
 
     //METHODS FOR selectLocation class TABLES
+
+    public Cursor getDataById(int id){
+        SQLiteDatabase db = this .getWritableDatabase();
+        Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + ID + " = " + id, null);
+        return res;
+    }
 
     public int deleteData(int id){
         SQLiteDatabase db = this.getWritableDatabase();

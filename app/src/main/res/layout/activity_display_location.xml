@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.indoorpositioning.indoorpositioning.DisplayLocation">
+
+    <ImageView
+        android:id="@+id/image_view"
+        android:layout_width="550dp"
+        android:layout_height="250dp"
+        android:layout_marginBottom="0dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginTop="0dp"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
+        android:src="@drawable/room1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.491"></ImageView>
+
+    <ImageButton
+        android:id="@+id/imageButton"
+        style="@style/Widget.AppCompat.ImageButton"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        android:background="@color/colorPrimary"
+        app:srcCompat="@color/colorPrimary"
+        tools:layout_editor_absoluteX="561dp"
+        tools:layout_editor_absoluteY="270dp" />
+
+</android.support.constraint.ConstraintLayout>

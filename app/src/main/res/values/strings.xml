@@ -3,4 +3,7 @@
     <string name="collect_rss">COLLECT RSS VALUES</string>
     <string name="title_activity_select_location">selectLocation</string>
     <string name="title_activity_training_set">TrainingSet</string>
+    <string name="locate_me">LOCATE ME</string>
+    <string name="title_activity_display_location">Location</string>
+
 </resources>

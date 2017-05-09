@@ -70,7 +70,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
     public Cursor getXYDataTraining(int i){
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor res = db.rawQuery("SELECT " + X_VALUE + " , " + Y_VALUE + " FROM " + TABLE_NAME_TRAINING + " WHERE " + ID + " = " + i , null);
+        Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME_TRAINING + " WHERE " + TRAINING_ID + " = " + i , null);
         //Cursor res = db.rawQuery("SELECT " + X_VALUE + " , " + Y_VALUE + " FROM " + TABLE_NAME_TRAINING + " WHERE " + ID + " = " + i , null);
         return res;
     }

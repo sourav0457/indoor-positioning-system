@@ -18,4 +18,10 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, selectLocation.class);
         startActivity(intent);
     }
+
+    public void locateMe(View view)
+    {
+        Intent intent = new Intent(this, currentLocation.class);
+        startActivity(intent);
+    }
 }

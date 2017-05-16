@@ -8,20 +8,20 @@
 
     <ImageView
         android:id="@+id/image_view"
-        android:layout_width="550dp"
-        android:layout_height="250dp"
+        android:layout_width="340dp"
+        android:layout_height="310dp"
         android:layout_marginBottom="0dp"
         android:layout_marginLeft="0dp"
         android:layout_marginRight="0dp"
         android:layout_marginTop="0dp"
         android:adjustViewBounds="true"
         android:scaleType="fitXY"
-        android:src="@drawable/room1"
+        android:src="@drawable/m007"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.491"></ImageView>
+        app:layout_constraintVertical_bias="0.0"></ImageView>
 
     <ImageButton
         android:id="@+id/imageButton"
@@ -30,7 +30,7 @@
         android:layout_height="10dp"
         android:background="@color/colorPrimary"
         app:srcCompat="@color/colorPrimary"
-        tools:layout_editor_absoluteX="561dp"
-        tools:layout_editor_absoluteY="270dp" />
+        tools:layout_editor_absoluteX="401dp"
+        tools:layout_editor_absoluteY="4dp" />
 
 </android.support.constraint.ConstraintLayout>

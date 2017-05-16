@@ -144,6 +144,7 @@ public class TrainingSet extends AppCompatActivity implements ActivityCompat.OnR
     private final BroadcastReceiver mWifiScanReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+            Toast.makeText(getApplicationContext(),"Broadcast Receiver working",Toast.LENGTH_SHORT).show();
             if(intent.getAction().equals(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION)){
                 wifiList = wifi.getScanResults();
                 for(int i=0; i < wifiList.size(); i++){

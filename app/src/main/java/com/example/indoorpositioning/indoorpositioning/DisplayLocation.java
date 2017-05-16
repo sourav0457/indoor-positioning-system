@@ -19,6 +19,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -42,6 +43,7 @@ public class DisplayLocation extends AppCompatActivity {
     long x,y;
     double xarray[] = new double[5];
     double yarray[] = new double[5];
+    ImageView img;
 
     public void knn(){
         x=Math.round(((xarray[0]/minarray[0]) + (xarray[1]/minarray[1]) + (xarray[2]/minarray[2]) + (xarray[3]/minarray[3]) + (xarray[4]/minarray[4]))/(1/minarray[0]+1/minarray[1]+1/minarray[2]+1/minarray[3]+1/minarray[4]));
@@ -219,6 +221,9 @@ public class DisplayLocation extends AppCompatActivity {
         findmindistance();
         findxy();
         knn();
+        img = (ImageView) findViewById(R.id.imageButton);
+        img.setX(1425);
+        img.setY(885);
 
     }
 }

@@ -10,6 +10,7 @@ import android.database.Cursor;
 import android.location.LocationManager;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
+import android.os.Handler;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
@@ -40,15 +41,17 @@ public class DisplayLocation extends AppCompatActivity {
     int count;
     double minarray[] = new double[5];
     int minid[] = new int[5];
-    long x,y;
+    double x,y;
     double xarray[] = new double[5];
     double yarray[] = new double[5];
     ImageView img;
+    Handler h;
+    int delay;
 
     public void knn(){
-        x=Math.round(((xarray[0]/minarray[0]) + (xarray[1]/minarray[1]) + (xarray[2]/minarray[2]) + (xarray[3]/minarray[3]) + (xarray[4]/minarray[4]))/(1/minarray[0]+1/minarray[1]+1/minarray[2]+1/minarray[3]+1/minarray[4]));
-        y=Math.round(((yarray[0]/minarray[0]) + (yarray[1]/minarray[1]) + (yarray[2]/minarray[2]) + (yarray[3]/minarray[3]) + (yarray[4]/minarray[4]))/(1/minarray[0]+1/minarray[1]+1/minarray[2]+1/minarray[3]+1/minarray[4]));
-        Toast.makeText(getApplicationContext(),"(X: " + x + " Y: " + y + ")",Toast.LENGTH_LONG).show();
+        x=((xarray[0]/minarray[0]) + (xarray[1]/minarray[1]) + (xarray[2]/minarray[2]) + (xarray[3]/minarray[3]) + (xarray[4]/minarray[4]))/(1/minarray[0]+1/minarray[1]+1/minarray[2]+1/minarray[3]+1/minarray[4]);
+        y=((yarray[0]/minarray[0]) + (yarray[1]/minarray[1]) + (yarray[2]/minarray[2]) + (yarray[3]/minarray[3]) + (yarray[4]/minarray[4]))/(1/minarray[0]+1/minarray[1]+1/minarray[2]+1/minarray[3]+1/minarray[4]);
+        //Toast.makeText(getApplicationContext(),"(X: " + x + " Y: " + y + ")",Toast.LENGTH_LONG).show();
     }
 
     public void findxy(){
@@ -123,7 +126,7 @@ public class DisplayLocation extends AppCompatActivity {
                     if(((wifiList.get(i).BSSID).toString()).equals(mac3))
                         rss3 = wifiList.get(i).level;
                 }
-                Toast.makeText(getApplicationContext(),"RSS1: " + rss1 +"RSS2: " + rss2 +"RSS3: " + rss3,Toast.LENGTH_LONG).show();
+                //Toast.makeText(getApplicationContext(),"RSS1: " + rss1 +"RSS2: " + rss2 +"RSS3: " + rss3,Toast.LENGTH_LONG).show();
             }
         }
     };
@@ -195,13 +198,14 @@ public class DisplayLocation extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_display_location);
+        img = (ImageView) findViewById(R.id.imageButton);
 
         turnGPSOn();
         myDb = new DatabaseHelper(this);
 
         Intent intent = getIntent();
         intentId = intent.getIntExtra("id", 0);
-        Toast.makeText(getApplicationContext(),"Intent id: " + intentId,Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getApplicationContext(),"Intent id: " + intentId,Toast.LENGTH_SHORT).show();
 
         getMACAddresses();
         wifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
@@ -216,14 +220,25 @@ public class DisplayLocation extends AppCompatActivity {
             myWifiMethod();
         }
 
+        calculate();
+    }
 
-        finddistance();
-        findmindistance();
-        findxy();
-        knn();
-        img = (ImageView) findViewById(R.id.imageButton);
-        img.setX(1425);
-        img.setY(885);
+    public void calculate(){
+        h = new Handler();
+        delay = 100;
 
+        h.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                wifi.startScan();
+                finddistance();
+                findmindistance();
+                findxy();
+                knn();
+                img.setX((float)x);
+                img.setY((float)y);
+                h.postDelayed(this, delay);
+            }
+        },delay);
     }
 }

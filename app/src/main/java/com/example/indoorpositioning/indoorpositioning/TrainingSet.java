@@ -174,7 +174,7 @@ public class TrainingSet extends AppCompatActivity implements ActivityCompat.OnR
         res.moveToFirst();
         try {
             do {
-                buffer.add("( X : " + res.getInt(1) + ", Y : " + res.getInt(2) + " ) (" + res.getInt(3) + "," + res.getInt(4) + "," + res.getInt(5) + ")");
+                buffer.add("( X : " + res.getFloat(1) + ", Y : " + res.getFloat(2) + " ) (" + res.getInt(3) + "," + res.getInt(4) + "," + res.getInt(5) + ")");
             }while(res.moveToNext());
         }
         finally {
@@ -306,9 +306,11 @@ public class TrainingSet extends AppCompatActivity implements ActivityCompat.OnR
                         {
                             int xcoordinate = Integer.parseInt(xvalue);
                             int ycoordinate = Integer.parseInt(yvalue);
+                            float xparam = (float)(xcoordinate/0.296875)+465;
+                            float yparam = (float)(ycoordinate/0.316877153)+14;
 
                             try {
-                                boolean isInserted = myDb.insertDataTraining(xcoordinate, ycoordinate, rss1, rss2, rss3, intentId);
+                                boolean isInserted = myDb.insertDataTraining(xparam, yparam, rss1, rss2, rss3, intentId);
                                 if (isInserted == true) {
                                     Intent intentrefresh = getIntent();
                                     intentrefresh.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);

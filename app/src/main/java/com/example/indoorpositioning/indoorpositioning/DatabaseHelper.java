@@ -33,7 +33,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
 
     public DatabaseHelper(Context context) {
-        super(context, DATABASE_NAME, null, 6);
+        super(context, DATABASE_NAME, null, 7);
 
     }
 
@@ -41,7 +41,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE " + TABLE_NAME + " (" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "+ LOCATION_NAME + " TEXT, " + MAC_1 +" TEXT, "+ MAC_2 +" TEXT, "+ MAC_3 +" TEXT);");
         //db.execSQL("CREATE TABLE " + TABLE_NAME_TRAINING + " (" + TRAINING_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "+ X_VALUE + " INTEGER, " + Y_VALUE +" INTEGER, "+ RSS_M1 +" INTEGER, "+ RSS_M2 +" INTEGER, "+ RSS_M3 +" INTEGER, "+ ID +" INTEGER);");
-        db.execSQL("create table " + TABLE_NAME_TRAINING + " (" + TRAINING_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "+ X_VALUE + " INTEGER, " + Y_VALUE +" INTEGER, "+ RSS_M1 +" INTEGER, "+ RSS_M2 +" INTEGER, "+ RSS_M3 +" INTEGER, "+ ID +" INTEGER, " + " FOREIGN KEY ("+ID+") REFERENCES "+TABLE_NAME+"("+ID+"));");
+        db.execSQL("create table " + TABLE_NAME_TRAINING + " (" + TRAINING_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "+ X_VALUE + " FLOAT, " + Y_VALUE +" FLOAT, "+ RSS_M1 +" INTEGER, "+ RSS_M2 +" INTEGER, "+ RSS_M3 +" INTEGER, "+ ID +" INTEGER, " + " FOREIGN KEY ("+ID+") REFERENCES "+TABLE_NAME+"("+ID+"));");
     }
 
     @Override
@@ -52,7 +52,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     }
 
     //METHODS FOR TrainingSet class TABLES
-    public boolean insertDataTraining(int x, int y, int rss_m1, int rss_m2, int rss_m3, int i){
+    public boolean insertDataTraining(float x, float y, int rss_m1, int rss_m2, int rss_m3, int i){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(X_VALUE, x);

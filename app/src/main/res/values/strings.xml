@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">Indoor Positioning Application</string>
     <string name="collect_rss">COLLECT RSS VALUES</string>
-    <string name="title_activity_select_location">selectLocation</string>
-    <string name="title_activity_training_set">TrainingSet</string>
+    <string name="title_activity_select_location">Select Location</string>
+    <string name="title_activity_training_set">Training Set Data</string>
     <string name="locate_me">LOCATE ME</string>
     <string name="title_activity_display_location">Location</string>
     <string name="ap_list">ACCESS POINT LIST</string>

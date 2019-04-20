@@ -49,9 +49,11 @@ public class DisplayLocation extends AppCompatActivity {
     int delay;
 
     public void knn(){
-        x=((xarray[0]/minarray[0]) + (xarray[1]/minarray[1]) + (xarray[2]/minarray[2]) + (xarray[3]/minarray[3]) + (xarray[4]/minarray[4]))/(1/minarray[0]+1/minarray[1]+1/minarray[2]+1/minarray[3]+1/minarray[4]);
-        y=((yarray[0]/minarray[0]) + (yarray[1]/minarray[1]) + (yarray[2]/minarray[2]) + (yarray[3]/minarray[3]) + (yarray[4]/minarray[4]))/(1/minarray[0]+1/minarray[1]+1/minarray[2]+1/minarray[3]+1/minarray[4]);
+        //x=((xarray[0]/minarray[0]) + (xarray[1]/minarray[1]) + (xarray[2]/minarray[2]) + (xarray[3]/minarray[3]) + (xarray[4]/minarray[4]))/(1/minarray[0]+1/minarray[1]+1/minarray[2]+1/minarray[3]+1/minarray[4]);
+        //y=((yarray[0]/minarray[0]) + (yarray[1]/minarray[1]) + (yarray[2]/minarray[2]) + (yarray[3]/minarray[3]) + (yarray[4]/minarray[4]))/(1/minarray[0]+1/minarray[1]+1/minarray[2]+1/minarray[3]+1/minarray[4]);
         //Toast.makeText(getApplicationContext(),"(X: " + x + " Y: " + y + ")",Toast.LENGTH_LONG).show();
+        x=((xarray[0]/minarray[0]) + (xarray[1]/minarray[1]) + (xarray[2]/minarray[2]))/(1/minarray[0]+1/minarray[1]+1/minarray[2]);
+        y=((yarray[0]/minarray[0]) + (yarray[1]/minarray[1]) + (yarray[2]/minarray[2]))/(1/minarray[0]+1/minarray[1]+1/minarray[2]);
     }
 
     public void findxy(){
@@ -126,7 +128,7 @@ public class DisplayLocation extends AppCompatActivity {
                     if(((wifiList.get(i).BSSID).toString()).equals(mac3))
                         rss3 = wifiList.get(i).level;
                 }
-                //Toast.makeText(getApplicationContext(),"RSS1: " + rss1 +"RSS2: " + rss2 +"RSS3: " + rss3,Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(),"RSS1: " + rss1 +"RSS2: " + rss2 +"RSS3: " + rss3,Toast.LENGTH_LONG).show();
             }
         }
     };
@@ -198,7 +200,7 @@ public class DisplayLocation extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_display_location);
-        img = (ImageView) findViewById(R.id.imageButton);
+
 
         turnGPSOn();
         myDb = new DatabaseHelper(this);
@@ -221,11 +223,12 @@ public class DisplayLocation extends AppCompatActivity {
         }
 
         calculate();
+
     }
 
     public void calculate(){
         h = new Handler();
-        delay = 100;
+        delay = 4000;
 
         h.postDelayed(new Runnable() {
             @Override
@@ -235,6 +238,7 @@ public class DisplayLocation extends AppCompatActivity {
                 findmindistance();
                 findxy();
                 knn();
+                img = (ImageView) findViewById(R.id.imageButton);
                 img.setX((float)x);
                 img.setY((float)y);
                 h.postDelayed(this, delay);

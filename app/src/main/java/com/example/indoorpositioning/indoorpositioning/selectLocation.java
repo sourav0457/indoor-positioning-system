@@ -105,7 +105,7 @@ public class selectLocation extends AppCompatActivity {
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l){
-                Toast.makeText(getApplicationContext(),"Item Clicked: "+ arrayId.get(i),Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(),"Item Clicked: "+ arrayId.get(i),Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getApplicationContext(), TrainingSet.class);
                 intent.putExtra("id", arrayId.get(i));
                 startActivity(intent);

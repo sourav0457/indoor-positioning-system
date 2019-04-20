@@ -127,7 +127,7 @@ public class TrainingSet extends AppCompatActivity implements ActivityCompat.OnR
             mac1 = res.getString(2);
             mac2 = res.getString(3);
             mac3 = res.getString(4);
-            Toast.makeText(getApplicationContext(),"Successfully obtained mac addresses from table",Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getApplicationContext(),"Successfully obtained mac addresses from table",Toast.LENGTH_SHORT).show();
 
         }
     }
@@ -137,14 +137,14 @@ public class TrainingSet extends AppCompatActivity implements ActivityCompat.OnR
 
         if(wifi.isWifiEnabled()==false){
             wifi.setWifiEnabled(true);
-            Toast.makeText(getApplicationContext(),"Wifi is now Enabled",Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getApplicationContext(),"Wifi is now Enabled",Toast.LENGTH_SHORT).show();
         }
     }
 
     private final BroadcastReceiver mWifiScanReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            Toast.makeText(getApplicationContext(),"Broadcast Receiver working",Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getApplicationContext(),"Broadcast Receiver working",Toast.LENGTH_SHORT).show();
             if(intent.getAction().equals(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION)){
                 wifiList = wifi.getScanResults();
                 for(int i=0; i < wifiList.size(); i++){
@@ -229,7 +229,7 @@ public class TrainingSet extends AppCompatActivity implements ActivityCompat.OnR
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l){
 
                 //Enter code to call another activity here
-                Toast.makeText(getApplicationContext(),"Item Clicked: "+i,Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(),"Item Clicked: "+i,Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -277,14 +277,14 @@ public class TrainingSet extends AppCompatActivity implements ActivityCompat.OnR
                     MY_PERMISSIONS_REQUEST_CHANGE_WIFI_STATE);
         }
         else{
-            Toast.makeText(getApplicationContext(),"Method Called",Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getApplicationContext(),"Method Called",Toast.LENGTH_SHORT).show();
             myWifiMethod();
         }
 
         displaydata();
 
-        Toast.makeText(getApplicationContext(),"Training Set! ",Toast.LENGTH_SHORT).show();
-        Toast.makeText(getApplicationContext(),"Item Clicked: "+ intentId,Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getApplicationContext(),"Training Set! ",Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getApplicationContext(),"Item Clicked: "+ intentId,Toast.LENGTH_SHORT).show();
 
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -317,7 +317,7 @@ public class TrainingSet extends AppCompatActivity implements ActivityCompat.OnR
                                     finish();
                                     overridePendingTransition(0, 0);
                                     startActivity(intentrefresh);
-                                    Toast.makeText(getApplicationContext(), "Saved Successfully", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getApplicationContext(), "Saved Successfully", Toast.LENGTH_SHORT).show();
                                 } else
                                     Toast.makeText(getApplicationContext(), "Error: Could Not Insert Data", Toast.LENGTH_LONG).show();
                             }

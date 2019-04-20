@@ -31,10 +31,8 @@ public class AccessPoints extends AppCompatActivity {
 
     public void turnGPSOn() {
         final LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-
         if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             buildAlertMessageNoGps();
-
         }
     }
 
@@ -110,7 +108,6 @@ public class AccessPoints extends AppCompatActivity {
 
     public void turnWifiOn()
     {
-
         if(wifi.isWifiEnabled()==false){
             wifi.setWifiEnabled(true);
             Toast.makeText(getApplicationContext(),"Wifi is now Enabled",Toast.LENGTH_SHORT).show();
